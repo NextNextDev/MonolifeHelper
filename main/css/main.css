@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap");
+body{
+    margin: 0;
+    width: 400px;
+    font-family: "Montserrat", sans-serif;
+}
+:root {
+    --color-white: #ffffff;
+    --color-checkbox-on: #af4728;
+    --color-checkbox-off: #eccec5;
+    --color-background: #681c05;
+    --button-width: 50px;
+    --button-height: 20px;
+    --toggle-diameter: 25px;
+    --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
+    --toggle-shadow-offset: 10px;
+    --toggle-wider: 80px;
+  }
+  
+  
+  span {
+    background-color: var(--color-checkbox-off);
+    display: inline-block;
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: calc(var(--button-height) / 2);
+    position: relative;
+    transition: .3s all ease-in-out;
+    cursor: pointer;
+  }
+  
+  span::after {
+    content: '';
+    display: inline-block;
+    width: var(--toggle-diameter);
+    height: var(--toggle-diameter);
+    background-color: var(--color-white);
+    border-radius: calc(var(--toggle-diameter) / 2);
+    position: absolute;
+    top: var(--button-toggle-offset);
+    transform: translateX(var(--button-toggle-offset));
+    box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, .10);
+    transition: .3s all ease-in-out;
+  }
+
+  input[type="checkbox"]:checked + span {
+    background-color: var(--color-checkbox-on);
+  }
+  
+  input[type="checkbox"]:checked + span::after {
+    transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
+    box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, .10);
+  }
+  
+  input[type="checkbox"] {
+    display: none;
+  }
+  
+  input[type="checkbox"]:active + span::after {
+    width: var(--toggle-wider);
+  }
+  
+  input[type="checkbox"]:checked:active + span::after {
+    transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+  }
+  
+  @media(prefers-color-scheme: dark) {
+    span {
+      background-color: var(--color-checkbox-off);
+    }
+  }
+header{
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(
+        320deg
+        ,#2c0702 16%,#561502 61%);
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+}
+.logo{
+    width: 180px;
+    height: 100%;
+    background-image: url(../img/Logo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+main{
+    padding: 20px;
+    width: 100%;
+    background: radial-gradient(ellipse at bottom,#6a0344 5%,#340129 70%);
+}
+.input__btn{
+    color: yellow;
+    font-weight: 500;
+    width: 100%;
+    padding: 15px 75px 15px 20px;
+    box-sizing: border-box;
+    background: #b1350f42;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+}
+.input{
+    position: relative;
+    margin-bottom: 15px;
+}
+.input:last-child{
+    margin-bottom: 0px;
+}
+.close_input{
+    width: 20px;
+    height: 20px;
+    display: inline;
+    position: absolute;
+    background-image: url(../img/close.svg);
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+    cursor: pointer;
+    border: 2px solid rgb(255, 0, 0);
+    padding: 2px;
+    border-radius: 100%;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.write_input{
+    width: 20px;
+    height: 20px;
+    display: inline;
+    position: absolute;
+    background-image: url(../img/pen.svg);
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+    cursor: pointer;
+    border: 2px solid yellow;
+    padding: 2px;
+    border-radius: 100%;
+    right: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.add__point{
+    display: inline;
+    padding: 5px 10px;
+    font-weight: bolder;
+    color: #641901;
+    border-bottom: 4px solid #b98a37;
+    text-shadow: 0 1px 0 #b79e6e;
+    background: #feda71;
+    background: -webkit-linear-gradient(
+80deg
+,#ffd100 40%,#fff000 60%);
+    background: linear-gradient(
+10deg
+,#ffd100 40%,#fff000 60%);
+    box-shadow: inset 1px 1px 0 #fee9aa;
+    border-radius: 25px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.input._add{
+    display: flex;
+    justify-content:flex-end ;
+}
