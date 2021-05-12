@@ -25,9 +25,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.google.com.ua/*"],
+      "matches": ["https://40e86e96-d64b-422b-8f9d-246a45f6d908.selcdn.net/*"],
       "run_at": "document_end",
-      "js": ["lib/js/jquery.js", "front/google.js"]
+      "all_frames": true,
+      "js": ["lib/js/jquery.js", "front/monopoly.js"]
     }
   ],
   "icons": { 
