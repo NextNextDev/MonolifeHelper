@@ -57,7 +57,7 @@ function editFn(event) {
         input.readOnly = true;
         input.style.cursor = 'pointer';
         let id = event.path[1].dataset.id;
-        screenData[screen].items[id] = event.path[1].children[2].value;
+        screenData[screen].items[id].name = event.path[1].children[2].value;
         updateData('data')
     }
 }
@@ -92,7 +92,8 @@ function toggleActive(event) {
 
 async function addInput(name, index) {
     if (typeof name !== 'string') {
-        name = "Название"
+        console.log(name)
+        name = "Название";
     }
     let itemNode = document.createElement('div');
     itemNode.classList.add('input');
@@ -153,7 +154,7 @@ async function switchScreen(eventOrName) {
 
     if (data.items.length > 0) {
         data.items.forEach((value, index) => {
-            addInput(value, index);
+            addInput(value.name, index);
         });
     }
     addEditEvents()

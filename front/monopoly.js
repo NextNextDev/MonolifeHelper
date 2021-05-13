@@ -1,49 +1,70 @@
 window.onload = start;
 
-let GAMES = ['БОНУС ДЛЯ КОЧКОВ', 'БОНУС ДЛЯ НОВИЧКОВ', 'Играем с другомS'];
-let findMode = true;
+let findMode = false;
 let findPlace;
-// function start() {
-//     try {
-//         chrome.runtime.sendMessage({ command: 'getStatus', body: "etpgpb_44" }, function (status) {
-//             if (chrome.runtime.lastError) {
-//                 throw new Error(chrome.runtime.lastError);
-//             }
-//             if (status === true) {
-//                 getAllData();
-//             }
-//             return true;
-//         });
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
+
+let screenData = {};
 function start() {
-    let timerId = setTimeout(function check() {
-        let findSpan = document.querySelector('.lobby-window__content.inside_content>span');
-        if (findSpan) {
-            createObserv(findSpan);
-        } else {
-            timerId = setTimeout(check, 500); // (*)
+    return new Promise((resolve, reject) => {
+        try {
+            chrome.runtime.sendMessage({ command: 'getSettings' }, function ({ status, body }) {
+                if (chrome.runtime.lastError) {
+                    throw new Error(chrome.runtime.lastError);
+                }
+                if (status !== true) {
+                    return reject(false);
+                }
+                screen = body.screen;
+                screenData = body.screenData;
+
+                if (screenData['game'].status === true) {
+                    let newItems = screenData['game'].items.filter((value) => value.status);
+                    screenData['game'].items = newItems;
+                }
+
+                let timerId = setTimeout(function check() {
+                    let findSpan = document.querySelector('#react-tabs-1');
+                    if (findSpan) {
+                        createObserv(findSpan);
+                    } else {
+                        timerId = setTimeout(check, 500); // (*)
+                    }
+                }, 500);
+                console.log(screenData)
+                if (screenData['game'].status === true && screenData['game'].items.length > 0) {
+                    findMode = true;
+                }
+
+                return resolve(true);
+            });
+        } catch (error) {
+            console.error(error);
         }
-    }, 500);
+    });
 }
 
 function createObserv(observElement) {
     let observer = new MutationObserver((mutation) => {
-        if (mutation[0].addedNodes.length === 1 && findMode == true) {
-            check(mutation[0].addedNodes[0]);
-        }
+        mutation.forEach((mut) => {
+            if (
+                mut.addedNodes.length === 1 &&
+                mut.addedNodes[0].classList.contains('lobby-item') &&
+                findMode == true &&
+                screenData['game'].status === true
+            ) {
+                console.log("EST")
+                check(mut.addedNodes[0], 'game');
+            }
+        });
     });
-    observer.observe(observElement, { childList: true });
+    observer.observe(observElement, { childList: true, subtree: true });
 }
 
-function check(addedNode) {
-    for (let index = 0; index < GAMES.length; index++) {
-        if (addedNode.children[0].innerText === GAMES[index]) {
-            console.dir(addedNode)
+function check(addedNode, screen) {
+    for (let index = 0; index < screenData[screen].items.length; index++) {
+        //console.log(`${addedNode.children[0].innerText} === ? ${screenData[screen].items[index].name}`)
+        if (addedNode.children[0].innerText === screenData[screen].items[index].name) {
             findPlace = addedNode.querySelector('.lobby-players__item--add');
-            console.dir(findPlace);
             if (findPlace) {
                 findPlace.click();
                 acceptConfirm();
@@ -57,13 +78,13 @@ function check(addedNode) {
 function acceptConfirm() {
     let timeOut = 0; // 5 sec
     let timerId = setTimeout(function check() {
-            let conf = document.querySelector('.react-confirm-alert');
-            if (conf) {
-                conf.querySelector('.green').click();
-            } else if (timeOut < 50) {
-                timeOut++;
-                timerId = setTimeout(check, 100); // (*)
-            }
+        let conf = document.querySelector('.react-confirm-alert');
+        if (conf) {
+            conf.querySelector('.green').click();
+        } else if (timeOut < 50) {
+            timeOut++;
+            timerId = setTimeout(check, 100); // (*)
+        }
     }, 100);
 }
 
