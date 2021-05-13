@@ -1,50 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <title>Document</title>
-</head>
-<body>
-    <div class="wrap">
-        <header>
-          <div class="logo"></div> 
-          <label for="toggle">
-            <input type="checkbox" id="toggle">
-            <span></span>
-          </label> 
-        </header>
-        <main>
-            <div class="input">
-                <div class="close_input"></div>
-                <div class="write_input"></div>
-                <input class="input__btn" value="Поле №№№" type="text" readonly="readonly" />
-            </div>
-            <div class="input">
-                <div class="close_input"></div>
-                <div class="write_input"></div>
-                <input class="input__btn" value="Поле №№№" type="text" readonly="readonly" />
-            </div>
-            <div class="input">
-                <div class="close_input"></div>
-                <div class="write_input"></div>
-                <input class="input__btn" value="Поле №№№" type="text" readonly="readonly" />
-            </div>
-            <div class="input">
-                <div class="close_input"></div>
-                <div class="write_input"></div>
-                <input class="input__btn" value="Поле №№№" type="text" readonly="readonly" />
-            </div>
-            <div class="input _add">
-               <div class="add__point">
-                   Добавить поле
-               </div>
-            </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="css/main.css" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="wrap">
+            <header>
+                <div class="logo">
+                    <svg
+                        version="1.0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="287.000000pt"
+                        height="75.000000pt"
+                        viewBox="0 0 287.000000 75.000000"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="width: auto; height: inherit"
+                    >
+                        <g
+                            transform="translate(0.000000,75.000000) scale(0.100000,-0.100000)"
+                            fill="#ffffff"
+                            stroke="none"
+                        >
+                            <path
+                                d="M160 700 c-25 -16 -51 -30 -58 -30 -8 0 -12 -6 -9 -12 3 -9 21 -12
+           57 -9 l53 3 -30 -38 c-17 -22 -43 -64 -59 -94 -28 -53 -29 -60 -29 -195 1
+           -114 -2 -142 -15 -152 -12 -10 3 -12 78 -13 93 0 108 5 72 28 -11 6 -30 31
+           -42 54 -19 37 -23 58 -23 144 0 95 2 106 34 173 19 39 40 71 46 71 6 0 25 -12
+           43 -27 l32 -28 -30 -59 c-25 -49 -30 -71 -30 -128 0 -103 35 -158 101 -158 45
+           0 84 40 95 96 12 67 -1 179 -28 234 l-26 52 32 19 c78 47 166 -49 166 -181 0
+           -84 -31 -151 -105 -229 -30 -32 -55 -61 -55 -64 0 -4 45 -7 99 -7 l99 0 21 34
+           c12 18 21 38 21 43 0 5 -27 7 -62 5 l-62 -5 29 34 c114 136 114 327 0 427 -52
+           47 -78 50 -121 16 -20 -16 -46 -38 -60 -48 l-24 -20 -33 31 c-37 35 -88 63
+           -114 62 -10 0 -38 -13 -63 -29z m215 -222 c41 -88 29 -213 -20 -213 -31 0 -55
+           59 -55 133 0 64 20 132 40 132 6 0 22 -24 35 -52z"
+                            />
+                            <path
+                                d="M1845 718 c-32 -17 -76 -61 -91 -90 -22 -43 -18 -130 11 -198 27 -64
+           33 -146 14 -183 -6 -12 -25 -37 -42 -54 -17 -18 -27 -36 -24 -40 4 -4 30 1 57
+           11 60 22 140 22 199 1 68 -24 92 -20 134 23 20 21 37 40 37 42 0 3 -24 6 -52
+           7 -29 1 -89 5 -134 8 -65 6 -87 4 -112 -9 l-31 -16 24 52 c34 72 34 161 0 243
+           -14 33 -25 74 -25 92 0 70 88 98 149 48 41 -35 45 -54 21 -100 -23 -46 -26
+           -117 -6 -134 8 -7 27 -11 43 -9 22 2 29 9 31 31 3 24 0 27 -27 27 -51 0 -42
+           38 24 98 30 28 55 55 55 60 0 17 -51 72 -81 87 -33 18 -145 19 -174 3z"
+                            />
+                            <path
+                                d="M2408 643 c-31 -35 -38 -63 -38 -142 0 -69 -3 -83 -19 -93 -23 -14
+           -16 -41 9 -33 25 8 30 -14 31 -124 0 -84 -8 -152 -27 -213 -3 -11 0 -18 9 -18
+           16 0 60 60 76 103 15 39 13 141 -3 212 -16 66 -14 75 12 57 32 -23 44 -25 59
+           -9 15 14 15 18 -1 41 -13 21 -25 26 -56 26 -38 0 -40 1 -41 33 -3 72 7 107 31
+           107 10 0 22 -4 25 -10 11 -18 21 -11 39 27 21 43 12 53 -50 53 -27 0 -46 -6
+           -56 -17z"
+                            />
+                            <path
+                                d="M798 400 c-43 -45 -48 -55 -48 -95 0 -55 18 -93 60 -129 43 -35 81
+           -34 125 5 47 41 65 78 65 130 0 71 -62 139 -126 139 -20 0 -41 -14 -76 -50z
+           m121 -51 c52 -52 34 -129 -30 -129 -39 0 -89 52 -89 92 0 70 66 90 119 37z"
+                            />
+                            <path
+                                d="M1066 435 c-19 -14 -19 -15 7 -39 24 -23 27 -32 27 -95 0 -67 -14
+           -121 -32 -121 -4 0 -8 -4 -8 -10 0 -6 30 -10 70 -10 40 0 70 4 70 10 0 6 -4
+           10 -8 10 -14 0 -30 43 -37 102 -6 49 -4 59 14 77 24 24 63 28 80 7 7 -8 15
+           -54 18 -103 3 -48 10 -94 16 -100 13 -17 58 -16 82 3 19 14 19 15 -13 40 l-32
+           25 0 94 c0 51 -3 100 -6 109 -9 22 -43 20 -106 -8 l-54 -24 -10 21 c-11 27
+           -52 33 -78 12z"
+                            />
+                            <path
+                                d="M1458 400 c-43 -45 -48 -55 -48 -95 0 -55 18 -93 60 -129 43 -35 81
+           -34 125 5 47 41 65 78 65 130 0 71 -62 139 -126 139 -20 0 -41 -14 -76 -50z
+           m121 -51 c52 -52 34 -129 -30 -129 -39 0 -89 52 -89 92 0 70 66 90 119 37z"
+                            />
+                            <path
+                                d="M2190 433 c-14 -9 -27 -18 -29 -19 -2 -2 6 -12 18 -21 19 -16 23 -29
+           23 -86 0 -66 -16 -127 -33 -127 -5 0 -9 -4 -9 -10 0 -6 30 -10 70 -10 40 0 70
+           4 70 10 0 6 -4 10 -8 10 -21 0 -34 60 -33 149 1 120 -14 142 -69 104z"
+                            />
+                            <path
+                                d="M2631 420 c-51 -44 -71 -79 -71 -130 0 -59 27 -101 78 -124 39 -18
+           42 -18 81 0 22 11 39 24 37 29 -1 6 -23 12 -48 15 -68 8 -98 32 -98 78 0 29 7
+           45 30 67 29 28 30 28 50 10 28 -25 23 -69 -7 -73 -36 -5 -27 -22 12 -22 48 0
+           75 29 75 79 0 33 -6 44 -37 70 -46 38 -59 38 -102 1z"
+                            />
+                        </g>
+                    </svg>
+                </div>
+                <div class="switchTab">
+                    <div class="svgContainer">
+                        <svg
+                            id="Capa_1"
+                            enable-background="new 0 0 512 512"
+                            height="512"
+                            viewBox="0 0 512 512"
+                            width="512"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                        >
+                            <linearGradient
+                                id="SVGID_1_"
+                                gradientUnits="userSpaceOnUse"
+                                x1="265.782"
+                                x2="265.782"
+                                y1="270"
+                                y2="0"
+                            >
+                                <stop offset="0" stop-color="#fd5900" />
+                                <stop offset="1" stop-color="#ffde00" />
+                            </linearGradient>
+                            <linearGradient
+                                id="SVGID_2_"
+                                gradientUnits="userSpaceOnUse"
+                                x1="246.232"
+                                x2="246.232"
+                                y1="512"
+                                y2="242"
+                            >
+                                <stop offset="0" stop-color="#ffe59a" />
+                                <stop offset="1" stop-color="#ffffd5" />
+                            </linearGradient>
+                            <g id="Arrow_138_">
+                                <g>
+                                    <g>
+                                        <path
+                                            d="m439.312 76.626c-46.423-46.437-113.051-76.626-183.222-76.626-60.352 0-119.444 22.178-165.088 61.479l-22.354-37.265c-3.281-5.449-9.639-8.174-15.82-6.987-6.24 1.26-10.986 6.299-11.895 12.583l-21.211 148.491c-1.447 10.032 7.27 18.358 16.963 16.978l148.477-21.211c6.299-.908 11.338-5.654 12.598-11.88s-1.553-12.568-7.002-15.835l-35.391-21.24c48.378-37.913 99.147-34.596 102.158-35.113 56.045 0 93.281 25.43 114.639 46.802 31.318 31.318 49.951 75.498 49.834 118.154 0 8.501 6.865 15.044 15 15.044h60c8.262 0 14.971-6.68 15-14.941.264-68.936-24.873-130.635-72.686-178.433z"
+                                            fill="url(#SVGID_1_)"
+                                        />
+                                    </g>
+                                </g>
+                                <g>
+                                    <g>
+                                        <path
+                                            d="m475.344 316.854-148.477 21.211c-6.299.908-11.338 5.654-12.598 11.88s1.553 12.568 7.002 15.835l35.273 21.182c-28.77 22.529-65.537 35.142-101.572 35.039-56.484.747-93.691-25.371-115.137-46.802-31.317-31.319-49.95-75.499-49.833-118.155 0-8.501-6.865-15.044-15-15.044h-60c-8.262 0-14.971 6.68-15 14.941-.264 68.936 24.873 130.635 72.686 178.433 46.136 46.15 108.571 74.849 183.223 76.626 60.352 0 119.414-22.178 165.059-61.45l22.412 37.368c3.281 5.449 9.609 8.203 15.82 6.987 6.24-1.26 10.986-6.299 11.895-12.583l21.211-148.491c1.447-10.041-7.368-18.466-16.964-16.977z"
+                                            fill="url(#SVGID_2_)"
+                                        />
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <h2 class="screen">Игры</h2>
+                </div>
+                <label for="toggle">
+                    <input type="checkbox" id="toggle" />
+                    <span></span>
+                </label>
+            </header>
+            <main>
+                <div class="input _add">
+                    <div class="add__point">Добавить поле</div>
+                </div>
             </main>
-    </div>
-    <script src="js/main.js" defer></script>
-</body>
+        </div>
+        <script src="js/main.js" defer></script>
+    </body>
 </html>

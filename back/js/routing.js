@@ -1,40 +1,49 @@
 /**
  * Created: NextNextDev
  */
-function routing({etpgpb}) {
+function routing({ main }) {
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         switch (request.command) {
             case 'getSettings': {
                 let responseObj = {
+                    status: true,
                     body: {
-                        etpgpb: {
-                            status_44: etpgpb.status_44,
-                        },
+                        screen: main.screen,
+                        screenData: main.screenData
                     },
                 };
 
                 return sendResponse(responseObj);
             }
             case 'setSettings': {
-                etpgpb.status_44 = request.body.etpgpb.status_44;
-                setSettings(request.body).then((result) => {
+                console.log("SET SETT",request.body)
+                main.setScreenData(request.body).then((result) => {
                     if (result === true) {
-                        sendResponse(true);
+                        sendResponse({ status: true });
                     } else {
-                        sendResponse(false);
+                        sendResponse({ status: false });
                     }
                 });
-                // The return indicates that the response will be asynchronous
+                
                 return true;
             }
-            case 'getStatus': {
-                switch (request.body) {
-                    case 'etpgpb_44': {
-                        return sendResponse(etpgpb.status_44);
+            case 'getScreen': {
+                let responseObj = {
+                    status: true,
+                    body: main.screen,
+                };
+
+                return sendResponse(responseObj);
+            }
+            case 'setScreen': {
+                main.setScreen(request.body).then((result) => {
+                    if (result === true) {
+                        sendResponse({ status: true });
+                    } else {
+                        sendResponse({ status: false });
                     }
-                    default:
-                        return sendResponse(false);
-                }
+                });
+                return true;
             }
             default:
                 break;
