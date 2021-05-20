@@ -110,6 +110,7 @@ function checkResult() {
     let timerId = setTimeout(function check() {
         if (findPlace.parentElement == null) {
             // отправить запрос на отключение поиска в расширение
+            alert('sel')
             return;
         } else if (timeOut < 10) {
             timeOut++;

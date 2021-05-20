@@ -165,6 +165,7 @@ main{
 }
 .input._add{
     display: flex;
+    padding-top: 5px;
     justify-content: flex-end;
 }
 

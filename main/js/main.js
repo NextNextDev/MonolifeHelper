@@ -147,7 +147,7 @@ async function switchScreen(eventOrName) {
     let screenNode = document.querySelector('.screen');
     screenNode.textContent = screen === 'game' ? 'Игры' : 'Бизнесы';
     if (screen === 'game') {
-        document.querySelector('.input._add').style.display = 'block';
+        document.querySelector('.input._add').style.display = 'flex';
     }
     if (Object.keys(screenData).length == 0 || !(screen in screenData)) {
         addEditEvents()
