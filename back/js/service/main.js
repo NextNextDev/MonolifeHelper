@@ -47,7 +47,7 @@ class Main {
 
     #getDataStorage() {
         return new Promise((resolve, reject) => {
-            chrome.storage.sync.get(['screen', 'screenData'], async function (result) {
+            chrome.storage.local.get(['screen', 'screenData'], async function (result) {
                 if (chrome.runtime.lastError) {
                     console.error('Не смог получить статус:', chrome.runtime.lastError);
                     return resolve(false);
@@ -65,7 +65,7 @@ class Main {
             }
             this._screen = value;
 
-            chrome.storage.sync.set(
+            chrome.storage.local.set(
                 {
                     screen: value,
                 },
@@ -87,8 +87,9 @@ class Main {
 
     setScreenData(value) {
         return new Promise((resolve, reject) => {
+            console.log("SAVE")
             this._screenData = value;
-            chrome.storage.sync.set(
+            chrome.storage.local.set(
                 {
                     screenData: value,
                 },

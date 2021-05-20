@@ -90,7 +90,7 @@ function toggleActive(event) {
     input.classList.toggle('--active');
 }
 
-async function addInput(name, index) {
+async function addInput(name, index, background) {
     if (typeof name !== 'string') {
         console.log(name)
         name = "Название";
@@ -100,9 +100,14 @@ async function addInput(name, index) {
 
     let closeNode = document.createElement('div');
     closeNode.classList.add('close_input');
-
+    
     let editNode = document.createElement('div');
     editNode.classList.add('write_input');
+    if (background) {
+        editNode.style.background = background;
+    } else {
+        editNode.addEventListener('click', editFn);
+    }
 
     let inputNode = document.createElement('input');
     inputNode.classList.add('input__btn');
@@ -126,7 +131,7 @@ async function addInput(name, index) {
     containerNode.before(itemNode);
 
     inputNode.addEventListener('click', toggleActive);
-    editNode.addEventListener('click', editFn);
+    
     closeNode.addEventListener('click', removeFn);
 }
 
@@ -141,7 +146,9 @@ async function switchScreen(eventOrName) {
 
     let screenNode = document.querySelector('.screen');
     screenNode.textContent = screen === 'game' ? 'Игры' : 'Бизнесы';
-
+    if (screen === 'game') {
+        document.querySelector('.input._add').style.display = 'block';
+    }
     if (Object.keys(screenData).length == 0 || !(screen in screenData)) {
         addEditEvents()
         return;
@@ -154,7 +161,11 @@ async function switchScreen(eventOrName) {
 
     if (data.items.length > 0) {
         data.items.forEach((value, index) => {
-            addInput(value.name, index);
+            if (screen === 'game') {
+                addInput(value.name, index);
+            } else {
+                addInput(value.name, index, value.background);
+            }
         });
     }
     addEditEvents()

@@ -17,7 +17,7 @@ function start() {
                 }
                 screen = body.screen;
                 screenData = body.screenData;
-                screenDataDb = body.screenData;
+                screenDataDb = JSON.parse(JSON.stringify(body.screenData));
                 if (screenData['game'].status === true) {
                     let newItems = screenData['game'].items.filter((value) => value.status);
                     screenData['game'].items = newItems;
@@ -129,17 +129,25 @@ function createObservBusiness(observElement) {
     let observer = new MutationObserver((mutation) => {
         mutation.forEach((mut) => {
             try {
-                console.log('MUT', mut);
+                //console.log('MUT', mut);
                 if (mut.addedNodes[0].children[0].classList.contains('business-image')) {
-                    console.log('call')
+                    console.log('call');
                     addPlusBisness(mut.addedNodes[0].children[0]);
                 }
                 // для плюсов
-                if (mut.addedNodes[0].children[0].className === 'usersForAttack') {
-                    checkBus(mut.addedNodes[0].children[0].children.querySelector('.lobby-players__item--add'));
-                }
+                // if (mut.addedNodes[0].children[0].className === 'usersForAttack') {
+                //     checkBus(mut.addedNodes[0].children[0].children.querySelector('.lobby-players__item--add'));
+                // }
                 // для зеленых кнопок
                 if (mut.addedNodes[0].children[0].className === 'btn lobby-item__button lobby-item__green') {
+                    console.log('click!!!');
+                    console.dir(mut.addedNodes[0].children[0]);
+                    let evt = new Event('click', {
+                        'bubbles'    : true, // Whether the event will bubble up through the DOM or not
+                        'cancelable' : true  // Whether the event may be canceled or not
+                    });
+                    mut.addedNodes[0].children[0].dispatchEvent(evt);
+                    acceptConfirm()
                 }
             } catch (error) {}
             // if (
@@ -153,7 +161,7 @@ function createObservBusiness(observElement) {
             // }
         });
     });
-    observer.observe(observElement, { childList: true });
+    observer.observe(observElement, { childList: true, subtree: true });
 }
 
 function checkBus(childrens) {
@@ -173,42 +181,57 @@ function checkBus(childrens) {
 }
 
 function addPlusBisness(imgNode) {
+    let addBusinessName = imgNode.classList[1].replace(/item--/, '');
+    let haveItem = false;
+    for (let index = 0; index < screenDataDb.business.items.length; index++) {
+        if (screenDataDb.business.items[index].name === addBusinessName) {
+            haveItem = true;
+            break;
+        }
+    }
     //let imgNode = node.addedNodes[0].children[0];
     let plus = document.createElement('div');
     plus.innerHTML = `
-        <button class="js-toggle-state || c-button-reset c-animated-button c-animated-button--plus-to-check" data-active="false">
+        <button class="js-toggle-state || c-button-reset c-animated-button c-animated-button--plus-to-check" data-active="${haveItem}">
             <span class="c-animated-button__text">
             Add
             </span>
         </button>
-    `
+    `;
     plus.children[0].addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
         let businessName = event.path[2].classList[1].replace(/item--/, '');
-        console.log(businessName)
-        let found = false;
         let action = this.getAttribute('data-active') === 'true' ? false : true;
-        if (action === true) {
+        if (action === false) {
             for (let index = 0; index < screenDataDb.business.items.length; index++) {
                 if (screenDataDb.business.items[index].name === businessName) {
-                    screenDataDb.business.items[index].status = action;
-                    found = action;
+                    screenDataDb.business.items.splice(index, 1);
+                    screenData.business.items.splice(index, 1);
                     break;
                 }
             }
-            if (found === false) {
-                screenDataDb.business.items.push({
-                    name: businessName,
-                    status: true
-                })
-            }
+        } else {
+            screenData.business.items.push({
+                name: businessName,
+            });
+            screenDataDb.business.items.push({
+                name: businessName,
+                status: true,
+                background: getComputedStyle(event.path[2]).background,
+            });
         }
-        
+        console.log('SAVE');
+        chrome.runtime.sendMessage({ command: 'setSettings', body: screenDataDb }, function () {
+            if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError);
+            }
+        });
         this.setAttribute('data-active', action);
-        event.preventDefault();
-        event.stopPropagation();
     });
-    imgNode.append(plus)
+    imgNode.append(plus);
 }
+
 addCssToDocument();
 function addCssToDocument() {
     let style = document.createElement('style');
