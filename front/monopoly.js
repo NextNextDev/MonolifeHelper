@@ -3,6 +3,10 @@ window.onload = start;
 let findMode = false;
 let findPlace;
 
+let findModeBusiness = false;
+
+let waitAccept = false;
+
 let screenData = {};
 let screenDataDb = {};
 function start() {
@@ -21,35 +25,37 @@ function start() {
                 if (screenData['game'].status === true) {
                     let newItems = screenData['game'].items.filter((value) => value.status);
                     screenData['game'].items = newItems;
+                    console.log(screenData['game']);
+                    let timerId = setTimeout(function check() {
+                        let findSpan = document.querySelector('#react-tabs-1');
+                        if (findSpan) {
+                            createObservGame(findSpan);
+                        } else {
+                            timerId = setTimeout(check, 500); // (*)
+                        }
+                    }, 500);
                 }
 
                 if (screenData['business'].status === true) {
                     let newItems = screenData['business'].items.filter((value) => value.status);
                     screenData['business'].items = newItems;
+                    let timerBusiness = setTimeout(function check() {
+                        let findSpan = document.querySelector('.business-wrapper');
+                        if (findSpan) {
+                            console.log('started create');
+                            createObservBusiness(findSpan);
+                        } else {
+                            timerBusiness = setTimeout(check, 500); // (*)
+                        }
+                        findModeBusiness = true;
+                    }, 500);
                 }
-
-                let timerId = setTimeout(function check() {
-                    let findSpan = document.querySelector('#react-tabs-1');
-                    if (findSpan) {
-                        createObservGame(findSpan);
-                    } else {
-                        timerId = setTimeout(check, 500); // (*)
-                    }
-                }, 500);
-
-                let timerBusiness = setTimeout(function check() {
-                    let findSpan = document.querySelector('.business-wrapper');
-                    if (findSpan) {
-                        console.log('started create');
-                        createObservBusiness(findSpan);
-                    } else {
-                        timerBusiness = setTimeout(check, 500); // (*)
-                    }
-                }, 500);
 
                 if (screenData['game'].status === true && screenData['game'].items.length > 0) {
                     findMode = true;
+                    console.log("find mode on")
                 }
+                createAcceptAlert() 
 
                 return resolve(true);
             });
@@ -65,6 +71,7 @@ function createObservGame(observElement) {
             if (
                 mut.addedNodes.length === 1 &&
                 mut.addedNodes[0].classList.contains('lobby-item') &&
+                mut.addedNodes[0].children[3].children[0].classList[0] === 'mp_bot' &&
                 findMode == true &&
                 screenData['game'].status === true
             ) {
@@ -78,12 +85,13 @@ function createObservGame(observElement) {
 
 function check(addedNode, screen) {
     for (let index = 0; index < screenData[screen].items.length; index++) {
-        //console.log(`${addedNode.children[0].innerText} === ? ${screenData[screen].items[index].name}`)
+        console.log(`${addedNode.children[0].innerText} === ${screenData[screen].items[index].name}`)
         if (addedNode.children[0].innerText === screenData[screen].items[index].name) {
             findPlace = addedNode.querySelector('.lobby-players__item--add');
             if (findPlace) {
                 findPlace.click();
-                acceptConfirm();
+                console.log("click")
+                waitAccept = true;
                 checkResult();
                 break;
             }
@@ -91,32 +99,35 @@ function check(addedNode, screen) {
     }
 }
 
-function acceptConfirm() {
-    let timeOut = 0; // 5 sec
-    let timerId = setTimeout(function check() {
-        let conf = document.querySelector('.react-confirm-alert');
-        if (conf) {
-            conf.querySelector('.green').click();
-        } else if (timeOut < 50) {
-            timeOut++;
-            timerId = setTimeout(check, 100); // (*)
-        }
-    }, 100);
+function createAcceptAlert() {
+    let observer = new MutationObserver((mutation) => {
+        mutation.forEach((mut) => {
+            if (mut.addedNodes[0].className === 'react-confirm-alert-overlay' && waitAccept === true) {
+                mut.addedNodes[0].children[0].children[0].children[1].children[0].click();
+                waitAccept = false;
+            }
+        });
+    });
+    observer.observe(document.querySelector('#AlertWindows'), { childList: true, subtree: true });
+    setTimeout(() => {
+        waitAccept = false;
+    },5000)
 }
 
 function checkResult() {
     findMode = false;
+    console.log("findMode off!")
     let timeOut = 0; // 10 sec
     let timerId = setTimeout(function check() {
         if (findPlace.parentElement == null) {
             // отправить запрос на отключение поиска в расширение
-            alert('sel')
             return;
         } else if (timeOut < 10) {
             timeOut++;
-            timerId = setTimeout(check, 100); // (*)
+            timerId = setTimeout(check, 1000); // (*)
         } else {
             findMode = true;
+            console.log("findMode on!")
         }
     }, 1000);
 }
@@ -140,15 +151,10 @@ function createObservBusiness(observElement) {
                 //     checkBus(mut.addedNodes[0].children[0].children.querySelector('.lobby-players__item--add'));
                 // }
                 // для зеленых кнопок
-                if (mut.addedNodes[0].children[0].className === 'btn lobby-item__button lobby-item__green') {
-                    console.log('click!!!');
-                    console.dir(mut.addedNodes[0].children[0]);
-                    let evt = new Event('click', {
-                        'bubbles'    : true, // Whether the event will bubble up through the DOM or not
-                        'cancelable' : true  // Whether the event may be canceled or not
-                    });
-                    mut.addedNodes[0].children[0].dispatchEvent(evt);
-                    acceptConfirm()
+                if (mut.addedNodes[0].children[0].className === 'btn lobby-item__button lobby-item__green' && findModeBusiness === true) {
+                    checkBus(mut);
+                    console.log('pre-click!!!');
+
                 }
             } catch (error) {}
             // if (
@@ -165,20 +171,19 @@ function createObservBusiness(observElement) {
     observer.observe(observElement, { childList: true, subtree: true });
 }
 
-function checkBus(childrens) {
-    // for (let index = 0; index < screenData[screen].items.length; index++) {
-    //     //console.log(`${addedNode.children[0].innerText} === ? ${screenData[screen].items[index].name}`)
-    //     if (addedNode.children[0].innerText === screenData[screen].items[index].name) {
-    //         findPlace = addedNode.querySelector('.lobby-players__item--add');
-    //         if (findPlace) {
-    //             findPlace.click();
-    //             acceptConfirm();
-    //             checkResult();
-    //             break;
-    //         }
-    //     }
-    // }
-    console.log('CHILD', childrens);
+function checkBus(mut) {
+    for (let index = 0; index < screenData['business'].items.length; index++) {
+        if (mut.target.children[0].classList[1] === 'item--'+screenData['business'].items[index].name) {
+            let evt = new Event('click', {
+                'bubbles'    : true, // Whether the event will bubble up through the DOM or not
+                'cancelable' : true  // Whether the event may be canceled or not
+            });
+            mut.addedNodes[0].children[0].dispatchEvent(evt);
+            findModeBusiness = false;
+            console.log("Click! Find mode business off")
+            waitAccept = true;
+        }
+    }
 }
 
 function addPlusBisness(imgNode) {

@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "MonoLife Helper",
-  "version": "0.1",
+  "version": "1.0",
   "description": "Помогает в игре MonoLife",
   "permissions": [
     "http://*/*",
@@ -25,7 +25,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://40e86e96-d64b-422b-8f9d-246a45f6d908.selcdn.net/*"],
+      "matches": ["https://monolife.ru/game/index.html*"],
       "run_at": "document_end",
       "all_frames": true,
       "js": ["lib/js/jquery.js", "front/monopoly.js"]
